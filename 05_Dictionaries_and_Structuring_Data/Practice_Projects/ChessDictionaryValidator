@@ -1,0 +1,64 @@
+# Chess Dictionary Validator
+import pprint
+
+theboard = {'1a': '', '1b':'','1c':'','1d':'','1e':'','1f':'','1g':'','1h':'bking',
+'2a': '', '2b':'','2c':'','2d':'','2e':'','2f':'','2g':'bbishop','2h':'',
+'3a': '', '3b':'','3c':'','3d':'','3e':'wking','3f':'','3g':'','3h':'',
+'4a': '', '4b':'','4c':'','4d':'','4e':'','4f':'','4g':'','4h':'',
+'5a': '', '5b':'','5c':'','5d':'','5e':'','5f':'','5g':'','5h':'bqueen',
+'6a': '', '6b':'','6c':'wqueen','6d':'','6e':'','6f':'','6g':'','6h':'',
+'7a': '', '7b':'','7c':'','7d':'','7e':'','7f':'','7g':'','7h':'',
+'8a': '', '8b':'','8c':'','8d':'','8e':'','8f':'','8g':'','8h':''}
+
+options = {'bking': 1, 'wking': 1, 'bqueens': 1, 'wqueens': 1, 'bpawns': 0, 'wpawns': 0, 'bknight': 0,
+'wknight': 0, 'bbishop': 1, 'wbishop': 0, 'brook': 0, 'wrook': 0 }
+
+countall = 0
+
+def isValidChessBoard():
+    turn = 'black'
+    countall  = 5
+
+    while options['bking'] <= 1 and options['wking'] <=1 and options['bpawns'] <=8 and options['bpawns'] <=8:
+        print ('-> Turn for ' + turn + '. Move on which space?')
+        field= input("Please input a key, which is the field" '\n')
+        figurine = input("Please input a value, which is the figurine" '\n')
+
+        if field in theboard and figurine in options:
+            move = {field:figurine}
+            for k, v in  move.items():
+                theboard[k]= figurine
+                options[v]  = options[v] +  1
+                countall = countall +1
+                print ("countall after", countall)
+                if turn == 'black':
+                    turn  = 'white'
+                else:
+                    turn =  'black'
+
+        else:
+            print ('-> Invalid entry - please try again')
+            if turn == 'black':
+                turn  = 'black'
+            else:
+                turn =  'white'
+    else:
+        print("xxx Game over xxx")
+
+while countall <= 32 and options['bking'] <= 1 and options['wking'] <=1 and options['bpawns'] <=8 and options['bpawns'] <=8:
+    isValidChessBoard()
+
+pprint.pprint(options)
+pprint.pprint(theboard)
+print("Game over")
+
+#1. check if player switches (not requested)
+#2. check if on error entry it asks the same color again for entry (not requested)
+#3. check that it exits on more than 1 king of each color or more than 8 pawns or 16 figurines each (32)
+#4. no check if 2 on the same spot or white player enters black figurines, unlimited queens...
+# feels like a mess, but when I don´t include multiple 'whiles', the players wouldn´t switch...
+# ...on turn or after an invalid entry, a second king would be accepted.
+# can't you ask for key and value in a single input? Why do I have to ask twice?
+# feels like all the info necessary is alread in 'theboard', but I don't know how to keep the ...
+# ...counter working properly
+# training level in book so far: functions, lists, dictionaries  
